@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
-output_file="$(mktemp -t git-extensions)" || exit $?
-scratch="$(mktemp -d -t git-extensions)" || exit $?
-pwd=`pwd` || exit $?
+declare -r output_file="$(mktemp -t git-extensions)" || exit $?
+declare -r scratch="$(mktemp -d -t git-extensions)" || exit $?
+declare -r pwd=`pwd` || exit $?
 
-ignore='.gitignore_global'
-attributes='.gitattributes'
-template='.git_template'
+declare -r ignore='.gitignore_global'
+declare -r attributes='.gitattributes'
+declare -r template='.git_template'
 
 function cleanup {
     rm -rf ${scratch}
