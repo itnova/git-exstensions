@@ -12,7 +12,7 @@ git config --global branch.project-preview.merge refs/heads/project-preview
 git config --global branch.project-preview.remote origin
 git config --global branch.project-preview.rebase true
 
-wget https://raw.githubusercontent.com/itnova/git-extensions/master/git-preview -O git-preview -quiet || exit $?
+wget https://raw.githubusercontent.com/itnova/git-extensions/master/git-preview -O git-preview -q || exit $?
 rm /usr/local/bin/git-preview || exit $?
 mv git-preview /usr/local/bin/ || exit $?
 chmod 777 /usr/local/bin/git-preview || exit $?
