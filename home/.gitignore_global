@@ -1,0 +1,6 @@
+.phpstorm*
+.idea
+.DS_Store
+*.swp
+.modman
+/solr/Config.php
