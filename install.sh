@@ -66,6 +66,7 @@ git config --global push.default current
 git config --global core.editor vim
 git config --global core.eol lf
 git config --global core.ignorecase false
+git config --global core.autocrlf input
 
 git config --global color.diff auto
 git config --global color.status auto
