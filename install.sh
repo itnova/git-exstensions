@@ -4,6 +4,10 @@ output_file="$(mktemp -t git-extensions)" || exit $?
 scratch="$(mktemp -d -t git-extensions)" || exit $?
 pwd=`pwd` || exit $?
 
+ignore='.gitignore_global'
+attributes='.gitattributes'
+template='.git_template'
+
 function cleanup {
     rm -rf ${scratch}
     rm -rf ${output_file}
@@ -59,10 +63,6 @@ git config --global merge.ff false
 
 git config --global push.default current
 
-git config --global init.templatedir ~/.git_template
-
-git config --global core.excludesfile ~/.gitignore_global
-git config --global core.attributesfile ~/.gitattributes
 git config --global core.editor vim
 git config --global core.eol lf
 git config --global core.ignorecase false
@@ -81,15 +81,18 @@ git config --global alias.br branch
 
 echo -e "Installing binaries"
 mkdir -p ~/.git_template/hooks/ || exit $?
-cp -f ${scratch}/git-extensions-master/home/.git_template/hooks/prepare-commit-msg ~/.git_template/hooks || exit $?
-chmod 777 ~/.git_template/hooks/prepare-commit-msg || exit $?
-echo -e "  ~/.git_template/hooks/prepare-commit-msg"
+cp -f ${scratch}/git-extensions-master/home/.git_template/hooks/prepare-commit-msg ~/${template}/hooks || exit $?
+chmod 777 ~/${template}/hooks/prepare-commit-msg || exit $?
+git config --global init.templatedir ~/${template}
+echo -e "  ~/$template/hooks/prepare-commit-msg"
 
-cp -f ${scratch}/git-extensions-master/home/.gitattributes ~/.gitattributes || exit $?
-echo -e "  ~/.gitattributes"
+cp -f ${scratch}/git-extensions-master/home/${attributes} ~/${attributes} || exit $?
+git config --global core.attributesfile ~/${attributes}
+echo -e "  ~/$attributes"
 
-cp -f ${scratch}/git-extensions-master/home/.gitignore_global ~/.gitignore_global || exit $?
-echo -e "  ~/.gitignore_global"
+cp -f ${scratch}/git-extensions-master/home/${ignore} ~/${ignore} || exit $?
+git config --global core.excludesfile ~/${ignore}
+echo -e "  ~/$ignore"
 
 cp -f ${scratch}/git-extensions-master/bin/git-preview /usr/local/bin/git-preview || exit $?
 chmod 777 /usr/local/bin/git-preview || exit $?
