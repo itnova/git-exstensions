@@ -99,6 +99,11 @@ cmd_preview()
 
     if [ $# -eq 0 ]; then
         say "Merging $rev into $target"
+
+        debug
+        debug "perform git init to sync with global settings"
+        git init -q || exit $?
+        debug
         debug "push origin $rev"
         git push ${output} origin "$rev" || exit $?
         debug
