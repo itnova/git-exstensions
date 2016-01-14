@@ -74,10 +74,29 @@ git config --global color.interactive auto
 git config --global color.ui auto
 git config --global color.grep always
 
+echo -e "Installing git aliases"
 git config --global alias.st status
 git config --global alias.ci commit
 git config --global alias.co checkout
 git config --global alias.br branch
+
+git config --global alias.notinlive 'branch -r --no-merged origin/live'
+git config --global alias.notinrelease 'branch -r --no-merged origin/release'
+git config --global alias.inlive 'branch -r --merged origin/live'
+git config --global alias.inrelease 'branch -r --merged origin/release'
+
+git config --global alias.lg "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative"
+
+git config --global alias.new '!sh -c "git checkout start && git pull --rebase origin live && git checkout -b $1"'
+
+git config --global alias.oneline '!_() { $(test $# -eq 0 && echo xargs -L1) git log --no-walk --decorate --oneline "$@"; }; _'
+git config --global alias.tips '!_() { t=$(git rev-list --no-merges --max-count=1 "$@"); if test -n "$t"; then echo $t; _ "$@" ^$t; fi; }; _'
+git config --global alias.view '!git tips origin/preview ^origin/live | git oneline'
+git config --global alias.rebuild-preview '!git checkout preview && git reset --hard origin/live && git merge --no-ff `git tips origin/preview ^origin/live | tr "\n" " "`'
+
+git config --global alias.release '!sh -c "git checkout release && git pull && git merge origin/$@ && git push"'
+git config --global alias.hotfix '!sh -c "git push origin $@ && git checkout live && git pull && git merge origin/$@ && git push"'
+git config --global --unset alias.preview
 
 echo -e "Installing binaries"
 mkdir -p ~/.git_template/hooks/ || exit $?
