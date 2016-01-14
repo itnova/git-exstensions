@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-# installation
-# bash < <(wget -q --no-check-certificate -O - https://gist.githubusercontent.com/ajpevers/efa179707636d508aa5c/raw/branches.git.sh)
-
 echo -e "Installing git branches"
 
 git config --global branch.support-preview.merge refs/heads/support-preview
