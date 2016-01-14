@@ -12,8 +12,9 @@ git config --global branch.project-preview.merge refs/heads/project-preview
 git config --global branch.project-preview.remote origin
 git config --global branch.project-preview.rebase true
 
-wget "https://raw.githubusercontent.com/itnova/git-exstensions/master/git-preview?token=ABa46fJq10CEazHz3E1Rx-vb9pC8ki5Dks5WoPVBwA%3D%3D" -O git-preview || exit $?
-cp git-preview /usr/local/bin/ || exit $?
+wget  "https://raw.githubusercontent.com/itnova/git-exstensions/master/git-preview?token=ABa46fJq10CEazHz3E1Rx-vb9pC8ki5Dks5WoPVBwA%3D%3D" -O git-preview -quiet || exit $?
+rm /usr/local/bin/git-preview || exit $?
+mv git-preview /usr/local/bin/ || exit $?
 chmod 777 /usr/local/bin/git-preview || exit $?
 
 echo -e "You can now use\n- git support\n"
