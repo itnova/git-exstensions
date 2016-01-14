@@ -18,4 +18,5 @@ usage: git preview support [<ref>]
     -h, --help            show the help
     -q                    quiet
     -d                    show debug messages
+    -v                    show version
 ```
