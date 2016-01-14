@@ -102,7 +102,7 @@ cmd_preview()
 
         debug
         debug "perform git init to sync with global settings"
-        git init -q || exit $?
+        git init ${output} || exit $?
         debug
         debug "push origin $rev"
         git push ${output} origin "$rev" || exit $?
