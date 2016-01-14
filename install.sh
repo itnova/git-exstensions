@@ -1,5 +1,20 @@
 #!/usr/bin/env bash
 
+output_file="$(mktemp -t git-extensions)" || exit $?
+scratch="$(mktemp -d -t git-extensions)" || exit $?
+pwd=`pwd` || exit $?
+
+function cleanup {
+    rm -rf ${scratch}
+    rm -rf ${output_file}
+}
+
+trap cleanup EXIT
+
+wget https://github.com/itnova/git-extensions/archive/master.zip -O "$output_file" -q || exit $?
+unzip -qq -d ${scratch} ${output_file} || exit $?
+rm "$output_file" || exit $?
+
 echo -e "Installing git branches"
 git config --global branch.support-preview.merge refs/heads/support-preview
 git config --global branch.support-preview.remote origin
@@ -64,17 +79,29 @@ git config --global alias.ci commit
 git config --global alias.co checkout
 git config --global alias.br branch
 
-echo -e "Downloading binaries"
-wget https://github.com/itnova/git-extensions/archive/master.zip -O git-extensions.zip -q || exit $?
-unzip git-extensions.zip || exit $?
-rm git-extensions.zip || exit $?
-
+echo -e "Installing binaries"
 mkdir -p ~/.git_template/hooks/ || exit $?
-cp -f git-extensions-master/home/.git_template/hooks/prepare-commit-msg ~/.git_template/hooks || exit $?
+cp -f ${scratch}/git-extensions-master/home/.git_template/hooks/prepare-commit-msg ~/.git_template/hooks || exit $?
 chmod 777 ~/.git_template/hooks/prepare-commit-msg || exit $?
+echo -e "  ~/.git_template/hooks/prepare-commit-msg"
 
-cp -f git-extensions-master/bin/git-preview /usr/local/bin/git-preview || exit $?
+cp -f ${scratch}/git-extensions-master/home/.gitattributes ~/.gitattributes || exit $?
+echo -e "  ~/.gitattributes"
+
+cp -f ${scratch}/git-extensions-master/home/.gitignore_global ~/.gitignore_global || exit $?
+echo -e "  ~/.gitignore_global"
+
+cp -f ${scratch}/git-extensions-master/bin/git-preview /usr/local/bin/git-preview || exit $?
 chmod 777 /usr/local/bin/git-preview || exit $?
+echo -e "  git preview"
 
-echo -e "You can now use\n- git support\n"
-echo -e "Done"
+
+cleanup || exit $?
+
+echo -e "
+You can now use
+- git preview support
+- git preview feature
+- git preview project
+
+Run \`git init\` in every project to use the newest config and triggers"
