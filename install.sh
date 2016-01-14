@@ -65,10 +65,15 @@ git config --global alias.co checkout
 git config --global alias.br branch
 
 echo -e "Downloading binaries"
-git archive --format tar --remote=git://git.foo.com/project.git HEAD:path/to/directory filename | tar -x
+wget https://github.com/itnova/git-extensions/archive/master.zip -O git-extensions.zip -q || exit $?
+unzip git-extensions.zip || exit $?
+rm git-extensions.zip || exit $?
 
-wget https://raw.githubusercontent.com/itnova/git-extensions/master/bin/git-preview -O git-preview -q || exit $?
-mv -f git-preview /usr/local/bin/git-preview || exit $?
+mkdir -p ~/.git_template/hooks/ || exit $?
+cp -f git-extensions-master/home/.git_template/hooks/prepare-commit-msg ~/.git_template/hooks || exit $?
+chmod 777 ~/.git_template/hooks/prepare-commit-msg || exit $?
+
+cp -f git-extensions-master/bin/git-preview /usr/local/bin/git-preview || exit $?
 chmod 777 /usr/local/bin/git-preview || exit $?
 
 echo -e "You can now use\n- git support\n"
