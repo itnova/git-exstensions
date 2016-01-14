@@ -11,6 +11,7 @@ git preview feature [<ref>]
 h,help        show the help
 q             quiet
 d             show debug messages
+v             show version
 "
 eval "$(echo "$OPTS_SPEC" | git rev-parse --parseopt -- "$@" || echo exit $?)"
 
@@ -18,6 +19,8 @@ PATH=$PATH:$(git --exec-path)
 . git-sh-setup
 
 require_work_tree
+
+version='1.0.0'
 
 quiet=
 debug=
@@ -54,6 +57,7 @@ while [ $# -gt 0 ]; do
     case "$opt" in
         -q) quiet=1 ;;
         -d) debug=1 ;;
+        -v) die ${version} ;;
 
         --) break ;;
         *) die "Unexpected option: $opt" ;;
