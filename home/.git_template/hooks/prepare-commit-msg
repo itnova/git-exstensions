@@ -19,7 +19,8 @@ $messageFile = $argv[1];
 $message = file_get_contents($messageFile);
 $messageJiraPattern = '/^([A-Z]{1,32}-[0-9]{1,32})\ /';
 preg_match($messageJiraPattern, $message, $matches);
-$messageJiraId = (isset($matches[1])) ? $matches[1] : null;
+$envId = isset($_ENV["TICKET"]) ? $_ENV["TICKET"] : null;
+$messageJiraId = (isset($matches[1])) ? $matches[1] : $envId;
 if ($messageJiraId === null) {
     $currentBranchName = exec('git rev-parse --abbrev-ref HEAD');
     $branchJiraPattern = '/^([a-zA-Z]{1,32}-[0-9]{1,32})[-_]?/';
