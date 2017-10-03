@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-declare -r output_file="$(mktemp -t git-extensions)" || exit $?
-declare -r scratch="$(mktemp -d -t git-extensions)" || exit $?
+declare -r output_file="$(mktemp -t git-extensions-XXXXX)" || exit $?
+declare -r scratch="$(mktemp -d -t git-extensions-XXXXX)" || exit $?
 declare -r pwd=`pwd` || exit $?
 
 declare -r ignore='.gitignore_global'
