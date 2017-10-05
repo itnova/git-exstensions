@@ -114,10 +114,16 @@ cp -f ${scratch}/git-extensions-master/home/${ignore} ~/${ignore} || exit $?
 git config --global core.excludesfile ~/${ignore}
 echo -e "  ~/$ignore"
 
-cp -f ${scratch}/git-extensions-master/bin/git-preview /usr/local/bin/git-preview || exit $?
-chmod 777 /usr/local/bin/git-preview || exit $?
-echo -e "  git preview"
-
+if [ -w /usr/local/bin ]; then
+    cp -f ${scratch}/git-extensions-master/bin/git-preview /usr/local/bin/git-preview || exit $?
+    chmod 777 /usr/local/bin/git-preview || exit $?
+    echo -e "  git preview"
+else
+    mkdir -p $HOME/bin
+    cp -f ${scratch}/git-extensions-master/bin/git-preview $HOME/bin/git-preview || exit $?
+    chmod 700 $HOME/bin/git-preview || exit $?
+    echo -e "  git preview has been copied to ~/bin. Please make sure this directory is in your PATH."
+fi
 
 cleanup || exit $?
 
