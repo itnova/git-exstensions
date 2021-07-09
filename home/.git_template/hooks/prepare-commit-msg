@@ -25,7 +25,7 @@ if (!preg_match($messageJiraPattern, $message)) {
     $envId = getenv("JIRA_TICKET");
     $branchJiraId = (isset($matches[1])) ? $matches[1] : $envId;
     if ($branchJiraId !== null) {
-        $message = sprintf('%s %s', strtoupper($branchJiraId), $message);
+        $message = sprintf('[%s] %s', strtoupper($branchJiraId), $message);
         file_put_contents($messageFile, $message);
     }
 }
